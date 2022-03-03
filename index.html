@@ -21,7 +21,9 @@
             id="questionSearch"
           />
         </div>
-        <div id="questionList"></div>
+        <div id="questionList">
+        
+        </div>
       </div>
       <div class="box" style="display: block" id="rightContainer">
         <div id="toggleDisplay">
@@ -29,7 +31,10 @@
           <p>Enter a subject and question to get started</p>
           <div id="rightDiv">
             <input type="text" id="title" placeholder="Title" />
-            <textarea id="questionDesc" placeholder="Write your query description here..."></textarea>
+            <textarea
+              id="questionDesc"
+              placeholder="Write your query description here..."
+            ></textarea>
           </div>
           <div>
             <button type="submit" id="submitBtn">Submit</button>
@@ -50,10 +55,15 @@
 
         <div id="commentHolder" style="display: none">
           <input id="pickName" placeholder="Name Please..." />
-          <textarea id="pickComment" placeholder="Please write your answer here..."></textarea>
+          <textarea
+            id="pickComment"
+            placeholder="Please write your answer here..."
+          ></textarea>
           <button id="commentBtn">Comment</button>
         </div>
       </div>
     </div>
+
+    <script src="main.js"></script>
   </body>
 </html>
