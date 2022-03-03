@@ -32,7 +32,7 @@ body {
 
 #newQuestionForm {
   color: white;
-  background-color: #f86814;
+  background-color: #dd0101;
   padding: 6px;
   margin-right: 1vw;
   border-radius: 7px;
@@ -64,7 +64,8 @@ body {
   background-color: #0069d9;
   color: white;
   padding: 6px;
-  border-radius: 7px;
+  float: right;
+  border-radius: 5px;
 }
 
 #submitBtn {
@@ -76,66 +77,80 @@ body {
 }
 
 #quesBlock {
-  color: white;
   padding: 10px;
   height: 60px;
   border-radius: 10px;
+  cursor: pointer;
   margin: 5px;
-  background-color: rgb(231, 200, 24);
+  background-color: rgb(253, 230, 19);
 }
 
 #quesTitle {
   overflow: hidden;
-  color: white;
+  color: rgb(196, 10, 10);
   font-weight: bolder;
   font-size: 34px;
 }
 
 #quesDesc {
   overflow: hidden;
-  color: white;
+  color: rgb(196, 10, 10);
   font-size: 22px;
 }
 
+#quesExpandedDisplay {
+  display: none;
+}
 
-#holder {
-  display: block;
-  /* background-color:#4096cf; */
-  /* color: white; */
-  padding-left: 4px;
-  /* border: 1px solid #E3B23D; */
+#respondQue {
+  background-color: rgb(253, 230, 19);
+  height: 50%;
+  padding: 10px;
   border-radius: 10px;
-  text-align: left;
 }
 
-#pickComment {
-  height: 22vh;
-  width: 45vw;
-  margin-top: 2px;
+#respondQue :nth-child(1) {
+  font-size: 32px;
+  font-weight: bolder;
 }
 
-#commentBtn {
+#respondQue :nth-child(2) {
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+#submitResponse {
   background-color: #0069d9;
-  float: right;
   color: white;
   padding: 6px;
-  border-radius: 7px;
+  float: right;
+  border-radius: 5px;
 }
 
-#respondAns {
+#responseList {
   overflow: auto;
-  height: 15vh;
   margin-bottom: 1vh;
 }
 
-#comments {
-  background-color: rgb(252, 239, 182);
-  padding-left: 10px;
-  margin-left: 20px;
+#responseForm {
+  /* width: 100%; */
+  background-color: aliceblue;
+  padding: 10px;
+  border-radius: 10px;
+  /* height: 50%; */
 }
 
-#resolveHolder {
-  display: block;
-  height: 7vh;
-  margin-bottom: 2vh;
+#pickName {
+  width: 50%;
+  margin: 2px 0px 2px 0px;
+}
+
+#pickResponse {
+  width: 100%;
+  height: 20vh;
+}
+
+h3,
+h1 {
+  margin: 0;
 }
