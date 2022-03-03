@@ -8,8 +8,21 @@ var questionSubmitBtn = document.getElementById("submitBtn");
 var questionTitle = document.getElementById("title");
 var questionDesc = document.getElementById("questionDesc");
 var questionList = document.getElementById("questionList");
+var questionForm = document.getElementById("quesFormDisplay");
+var questionExpanded = document.getElementById("quesExpandedDisplay");
+var submitResponseBtn = document.getElementById("submitResponse");
 
 questionSubmitBtn.addEventListener("click", submitQuestion);
+
+loadquestions();
+
+//load existing questions
+function loadquestions() {
+  var questions = getAllQuestion();
+  questions.forEach((q) => {
+    addQuestionToUI(q);
+  });
+}
 
 //make question
 function makeQuestion() {
@@ -39,6 +52,8 @@ function makeQuestionUI(question) {
   quesBlock.appendChild(quesTitle);
   quesBlock.appendChild(quesDesc);
 
+  quesBlock.addEventListener("click", expandQuestion(question));
+
   return quesBlock;
 }
 
@@ -49,17 +64,46 @@ function submitQuestion() {
   saveQuestionToStorage(question);
   addQuestionToUI(question);
 }
+//save the question to local storage
+function saveQuestionToStorage(question) {
+  var questions = getAllQuestion();
+  questions.push(question);
+  localStorage.setItem("questions", JSON.stringify(questions));
+}
 
 //add question to list on right
 function addQuestionToUI(question) {
   questionList.prepend(makeQuestionUI(question));
 }
 
-//save the question to local storage
-function saveQuestionToStorage(question) {
-  var questions = getAllQuestion();
-  questions.push(question);
-  localStorage.setItem("questions", JSON.stringify(questions));
+//expand question handler
+function expandQuestion(question) {
+  return function () {
+    hideQuesForm();
+    displayExpandedQues();
+    makeExpandedDisplay(question);
+    submitResponseBtn.addEventListener('click',collectResponse(question))
+  };
+}
+
+function hideQuesForm() {
+  questionForm.style.display = "none";
+}
+
+function displayExpandedQues() {
+  questionExpanded.style.display = "block";
+}
+
+function makeExpandedDisplay(question) {
+  var title = document.createElement("div");
+  title.innerHTML = question.title;
+
+  var desc = document.createElement("div");
+  desc.innerHTML = question.description;
+
+  questionExpanded.children[1].innerHTML = "";
+  questionExpanded.children[1].appendChild(title);
+  questionExpanded.children[1].appendChild(desc);
 }
 
 //return all questions in the storage
