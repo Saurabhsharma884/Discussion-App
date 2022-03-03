@@ -13,66 +13,69 @@ body {
   font-size: 42px;
   font-family: "Abril Fatface", cursive;
 }
-.container
-{
+.container {
   display: flex;
+  height: 80vh;
   justify-content: space-evenly;
   margin-top: 10px;
 }
 
 .box {
-    /* border: 1px solid black; */
-    border-radius: 10px;
-    padding: 10px;
-    width: 49%;
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  padding: 10px;
+  width: 49%;
 }
 #questionSearch {
-    width: 70%;
-    padding: 5px;
+  width: 70%;
 }
 
-#newQuestionForm
-{
+#newQuestionForm {
   color: white;
-  background-color: #f8e114;
+  background-color: #f86814;
   padding: 6px;
   margin-right: 1vw;
   border-radius: 7px;
 }
 
-#dataList
-{
-  overflow: auto;
-  height: 60vh;
+#dataList {
+  margin: 10px;
+  background-color: white;
+  overflow-x: scroll;
+  height: 80%;
 }
 
-#rightDiv
-{
+#rightDiv {
   width: 100%;
-  margin : 2px 2px 2px 2px;
+  margin: 2px;
 }
 
-#subject
-{
+#title {
   width: 10vw;
 }
 
-#question
-{
+#questionDesc {
   height: 22vh;
   width: 45vw;
 }
 
-#submitBtn
-{
+#resolveBtn {
+  cursor: pointer;
   background-color: #0069d9;
   color: white;
   padding: 6px;
   border-radius: 7px;
 }
 
-#holder
-{
+#submitBtn {
+  cursor: pointer;
+  background-color: #0069d9;
+  color: white;
+  padding: 6px;
+  border-radius: 7px;
+}
+
+#holder {
   display: block;
   /* background-color:#4096cf; */
   /* color: white; */
@@ -82,15 +85,13 @@ body {
   text-align: left;
 }
 
-#pickComment
-{
+#pickComment {
   height: 22vh;
   width: 45vw;
   margin-top: 2px;
 }
 
-#commentBtn
-{
+#commentBtn {
   background-color: #0069d9;
   float: right;
   color: white;
@@ -98,33 +99,20 @@ body {
   border-radius: 7px;
 }
 
-#respondAns
-{
+#respondAns {
   overflow: auto;
   height: 15vh;
   margin-bottom: 1vh;
 }
 
-#comments
-{
+#comments {
   background-color: rgb(252, 239, 182);
   padding-left: 10px;
   margin-left: 20px;
 }
 
-#resolveHolder
-{
+#resolveHolder {
   display: block;
   height: 7vh;
   margin-bottom: 2vh;
-}
-
-
-#resolveBtn
-{
-  background-color: #0069d9;
-  float: right;
-  color: white;
-  padding: 6px;
-  border-radius: 7px;
 }

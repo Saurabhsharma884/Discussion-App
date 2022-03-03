@@ -4,7 +4,18 @@
 // listen for click on question and display in right pane
 // listen for click on submit respone Button
 // display response in response section
+var questionSubmitBtn = document.getElementById("submitBtn");
+var questionTitle = document.getElementById("title");
+var questionDesc = document.getElementById("questionDesc");
 
-function onQuestionSubmit() {
-    
+questionSubmitBtn.addEventListener("click", submitQuestion);
+function makeQuestion() {
+  var question = {
+    title: questionTitle.value,
+    description: questionDesc.value,
+    responses: [],
+  };
 }
+function submitQuestion() {}
+
+function onQuestionSubmit() {}
