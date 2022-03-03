@@ -77,12 +77,25 @@ body {
 
 #quesBlock {
   color: white;
-  height: 80px;
+  padding: 10px;
+  height: 60px;
   border-radius: 10px;
   margin: 5px;
   background-color: rgb(231, 200, 24);
 }
 
+#quesTitle {
+  overflow: hidden;
+  color: white;
+  font-weight: bolder;
+  font-size: 34px;
+}
+
+#quesDesc {
+  overflow: hidden;
+  color: white;
+  font-size: 22px;
+}
 
 
 #holder {
