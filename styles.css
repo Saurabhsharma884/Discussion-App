@@ -1,0 +1,130 @@
+body {
+  /* padding: 0;
+    margin: 0; */
+}
+
+#heading {
+  background-color: rgb(255, 102, 0);
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  padding: 10px;
+  font-weight: bolder;
+  font-size: 42px;
+  font-family: "Abril Fatface", cursive;
+}
+.container
+{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 10px;
+}
+
+.box {
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    padding: 10px;
+    width: 49%;
+}
+#questionSearch {
+    width: 70%;
+    padding: 5px;
+}
+
+#newQuestionForm
+{
+  color: white;
+  background-color: #f8e114;
+  padding: 6px;
+  margin-right: 1vw;
+  border-radius: 7px;
+}
+
+#dataList
+{
+  overflow: auto;
+  height: 60vh;
+}
+
+#rightDiv
+{
+  width: 100%;
+  margin : 2px 2px 2px 2px;
+}
+
+#subject
+{
+  width: 10vw;
+}
+
+#question
+{
+  height: 22vh;
+  width: 45vw;
+}
+
+#submitBtn
+{
+  background-color: #0069d9;
+  color: white;
+  padding: 6px;
+  border-radius: 7px;
+}
+
+#holder
+{
+  display: block;
+  /* background-color:#4096cf; */
+  /* color: white; */
+  padding-left: 4px;
+  /* border: 1px solid #E3B23D; */
+  border-radius: 10px;
+  text-align: left;
+}
+
+#pickComment
+{
+  height: 22vh;
+  width: 45vw;
+  margin-top: 2px;
+}
+
+#commentBtn
+{
+  background-color: #0069d9;
+  float: right;
+  color: white;
+  padding: 6px;
+  border-radius: 7px;
+}
+
+#respondAns
+{
+  overflow: auto;
+  height: 15vh;
+  margin-bottom: 1vh;
+}
+
+#comments
+{
+  background-color: rgb(252, 239, 182);
+  padding-left: 10px;
+  margin-left: 20px;
+}
+
+#resolveHolder
+{
+  display: block;
+  height: 7vh;
+  margin-bottom: 2vh;
+}
+
+
+#resolveBtn
+{
+  background-color: #0069d9;
+  float: right;
+  color: white;
+  padding: 6px;
+  border-radius: 7px;
+}
