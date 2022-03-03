@@ -21,12 +21,10 @@
             id="questionSearch"
           />
         </div>
-        <div id="questionList">
-        
-        </div>
+        <div id="questionList"></div>
       </div>
-      <div class="box" style="display: block" id="rightContainer">
-        <div id="toggleDisplay">
+      <div class="box" id="rightContainer">
+        <div id="quesFormDisplay">
           <h1>Welcome to Discussion Portal !</h1>
           <p>Enter a subject and question to get started</p>
           <div id="rightDiv">
@@ -41,25 +39,28 @@
           </div>
         </div>
 
-        <!-- <div id="respondQue">
+        <div id="quesExpandedDisplay">
+          <h3>Question</h3>
+          <div id="respondQue">
 
-        </div>
+          </div>
+          <div id="resolveHolder">
+            <button id="resolveBtn">Resolve</button>
+          </div>
 
-        <div id="resolveHolder">
-          <button id="resolveBtn">Resolve</button>
-        </div>
-
-        <div id="respondAns">
-
-        </div> -->
-
-        <div id="commentHolder" style="display: none">
-          <input id="pickName" placeholder="Name Please..." />
-          <textarea
-            id="pickComment"
-            placeholder="Please write your answer here..."
-          ></textarea>
-          <button id="commentBtn">Comment</button>
+          <hr/>
+          <h3>Response</h3>
+          <div id="responseList">
+          </div>
+          <h1>Add Response</h1>
+          <div id="responseForm">
+            <input id="pickName" placeholder="Name Please..." />
+            <textarea
+              id="pickResponse"
+              placeholder="Please write your answer here..."
+            ></textarea>
+            <button id="submitResponse">Submit</button>
+          </div>
         </div>
       </div>
     </div>
