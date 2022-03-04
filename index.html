@@ -1,70 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Discussion App</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div id="heading">Discussion Portal</div>
-    <div class="container">
-      <div class="box" style="background-color: rgb(226, 225, 222)">
-        <div>
-          <button id="newQuestionForm">New Question form</button>
-          <input
-            type="search"
-            placeholder="search questions..."
-            id="questionSearch"
-          />
-        </div>
-        <div id="questionList"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discussion App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="heading">Discussion Portal</div>
+  <div class="container">
+    <div class="box" style="background-color: rgb(226, 225, 222)">
+      <div>
+        <button id="newQuestionForm">New Question form</button>
+        <input type="search" placeholder="search questions..." id="questionSearch" />
       </div>
-      <div class="box" id="rightContainer">
-        <div id="quesFormDisplay">
-          <h1>Welcome to Discussion Portal !</h1>
-          <p>Enter a subject and question to get started</p>
-          <div id="rightDiv">
-            <input type="text" id="title" placeholder="Title" />
-            <textarea
-              id="questionDesc"
-              placeholder="Write your query description here..."
-            ></textarea>
-          </div>
-          <div>
-            <button type="submit" id="submitBtn">Submit</button>
-          </div>
+      <div id="questionList"></div>
+    </div>
+    <div class="box" id="rightContainer">
+      <div id="quesFormDisplay">
+        <h1>Welcome to Discussion Portal !</h1>
+        <p>Enter a subject and question to get started</p>
+        <div id="rightDiv">
+          <input type="text" id="title" placeholder="Title" />
+          <textarea id="questionDesc" placeholder="Write your query description here..."></textarea>
+        </div>
+        <div>
+          <button type="submit" id="submitBtn">Submit</button>
+        </div>
+      </div>
+
+      <div id="quesExpandedDisplay">
+        <h3>QUESTION</h3>
+        <div id="respondQue">
+
+        </div>
+        <div id="resolveHolder">
+          <button id="resolveBtn">Resolve</button>
+          <button id="upvoteBtn">Up Vote</button>
+          <button id="downvoteBtn">Down Vote</button>
         </div>
 
-        <div id="quesExpandedDisplay">
-          <h3>Question</h3>
-          <div id="respondQue">
-
-          </div>
-          <div id="resolveHolder">
-            <button id="resolveBtn">Resolve</button>
-          </div>
-
-          <hr/>
-          <h3>Response</h3>
-          <div id="responseList">
-          </div>
-          <h1>Add Response</h1>
-          <div id="responseForm">
-            <input id="pickName" placeholder="Name Please..." />
-            <textarea
-              id="pickResponse"
-              placeholder="Please write your answer here..."
-            ></textarea>
-            <button id="submitResponse">Submit</button>
-          </div>
+        <hr />
+        <h3>RESPONSE</h3>
+        <div id="responseList">
+        </div>
+        <h1>Add Response</h1>
+        <div id="responseForm">
+          <input id="pickName" placeholder="Name Please..." />
+          <textarea id="pickResponse" placeholder="Please write your answer here..."></textarea>
+          <button id="submitResponse">Submit</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="main.js"></script>
-  </body>
+  <script src="main.js"></script>
+</body>
+
 </html>
