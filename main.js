@@ -33,6 +33,8 @@ function makeQuestion() {
     title: questionTitle.value,
     description: questionDesc.value,
     responses: [],
+    upVotes:0,
+    downVotes:0
   };
 
   questionTitle.value = "";
@@ -52,8 +54,18 @@ function makeQuestionUI(question) {
   quesDesc.setAttribute("id", "quesDesc");
   quesDesc.innerHTML = question.description;
 
+  var upvoteDiv = document.createElement('div')
+  upvoteDiv.setAttribute('id','upvoteDiv')
+  upvoteDiv.innerHTML = question.upVotes;
+
+  var downvoteDiv = document.createElement('div')
+  downvoteDiv.setAttribute('id','downvoteDiv')
+  downvoteDiv.innerHTML = question.downVotes
+
   quesBlock.appendChild(quesTitle);
   quesBlock.appendChild(quesDesc);
+  quesTitle.appendChild(upvoteDiv);
+  quesTitle.appendChild(downvoteDiv);
 
   quesBlock.addEventListener("click", expandQuestion(question));
 
@@ -63,7 +75,6 @@ function makeQuestionUI(question) {
 //submit question
 function submitQuestion() {
   var question = makeQuestion();
-
   saveQuestionToStorage(question);
   addQuestionToUI(question);
 }
@@ -85,6 +96,8 @@ function expandQuestion(question) {
     hideQuesForm();
     displayExpandedQues();
     makeExpandedDisplay(question);
+    clearResponsePanel();
+    getQuestionResponsesToUI(question);
     submitResponseBtn.onclick = collectResponse(question);
   };
 }
@@ -97,38 +110,54 @@ function displayExpandedQues() {
   questionExpanded.style.display = "block";
 }
 
+function clearResponsePanel() {
+  resList.innerHTML = "";
+}
+
 function collectResponse(question) {
   return function () {
     var response = {
       name: resName.value,
       res: resDesc.value,
     };
-
+    clearResponseForm();
     saveResponseToStorage(question, response);
     addResponseToUI(response);
   };
 }
-
+function clearResponseForm() {
+  resName.value = "";
+  resDesc.value = "";
+}
 function saveResponseToStorage(question, newRes) {
   var allQuestion = getAllQuestion();
 
   var revisedQuestions = allQuestion.map(function (q) {
     if (question.title === q.title) q.responses.push(newRes);
-
     return q;
   });
 
   localStorage.setItem("questions", JSON.stringify(revisedQuestions));
 }
 
+function getQuestionResponsesToUI(question) {
+  var allQuestion = getAllQuestion();
+  allQuestion.forEach(function (q) {
+    if (q.title === question.title) {
+      q.responses.forEach(function (res) {
+        addResponseToUI(res);
+      });
+    }
+  });
+}
 function addResponseToUI(response) {
   var responseBlock = document.createElement("div");
   responseBlock.setAttribute("id", "responseBlockDiv");
 
-  var nameBlock = document.createElement("h3");
+  var nameBlock = document.createElement("h5");
   nameBlock.innerHTML = response.name;
 
-  var resBlock = document.createElement("h1");
+  var resBlock = document.createElement("h4");
   resBlock.innerHTML = response.res;
 
   responseBlock.appendChild(nameBlock);
