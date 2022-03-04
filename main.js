@@ -12,6 +12,9 @@ var questionForm = document.getElementById("quesFormDisplay");
 var questionExpanded = document.getElementById("quesExpandedDisplay");
 var submitResponseBtn = document.getElementById("submitResponse");
 
+var resName = document.getElementById("pickName");
+var resDesc = document.getElementById("pickResponse");
+var resList = document.getElementById("responseList");
 questionSubmitBtn.addEventListener("click", submitQuestion);
 
 loadquestions();
@@ -82,7 +85,7 @@ function expandQuestion(question) {
     hideQuesForm();
     displayExpandedQues();
     makeExpandedDisplay(question);
-    submitResponseBtn.addEventListener('click',collectResponse(question))
+    submitResponseBtn.onclick = collectResponse(question);
   };
 }
 
@@ -92,6 +95,46 @@ function hideQuesForm() {
 
 function displayExpandedQues() {
   questionExpanded.style.display = "block";
+}
+
+function collectResponse(question) {
+  return function () {
+    var response = {
+      name: resName.value,
+      res: resDesc.value,
+    };
+
+    saveResponseToStorage(question, response);
+    addResponseToUI(response);
+  };
+}
+
+function saveResponseToStorage(question, newRes) {
+  var allQuestion = getAllQuestion();
+
+  var revisedQuestions = allQuestion.map(function (q) {
+    if (question.title === q.title) q.responses.push(newRes);
+
+    return q;
+  });
+
+  localStorage.setItem("questions", JSON.stringify(revisedQuestions));
+}
+
+function addResponseToUI(response) {
+  var responseBlock = document.createElement("div");
+  responseBlock.setAttribute("id", "responseBlockDiv");
+
+  var nameBlock = document.createElement("h3");
+  nameBlock.innerHTML = response.name;
+
+  var resBlock = document.createElement("h1");
+  resBlock.innerHTML = response.res;
+
+  responseBlock.appendChild(nameBlock);
+  responseBlock.appendChild(resBlock);
+
+  resList.appendChild(responseBlock);
 }
 
 function makeExpandedDisplay(question) {
