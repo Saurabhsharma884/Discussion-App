@@ -19,23 +19,47 @@ var resList = document.getElementById("responseList");
 var upVoteBtn = document.getElementById("upvoteBtn");
 var downVoteBtn = document.getElementById("downvoteBtn");
 
-var questionSearch = document.getElementById('questionSearch')
-
+var questionSearchNode = document.getElementById("questionSearch");
 
 questionSubmitBtn.addEventListener("click", submitQuestion);
 
 loadquestions();
 
-questionSearch.addEventListener('change',function(e){
+questionSearchNode.addEventListener("keyup", function (e) {
+  // console.log(e);
   getSearchResults(e.target.value);
-})
+});
 
-function getSearchResults(query){
+function getSearchResults(query) {
+  var allQuestions = getAllQuestion();
 
-  
+  if (query) {
+    clearQuestionList();
+    var filteredQues = allQuestions.filter(function (q) {
+      if (q.title.includes(query)) {
+        return true;
+      }
+    });
 
+    if(filteredQues.length){
+      filteredQues.forEach(function(q){
+        addQuestionToUI(q);
+      })
+    }else{
+      questionList.innerHTML=`<h3> No Match Found </h3>`;
+    }
+  }else{
+    clearQuestionList()
+
+    allQuestions.forEach(function(q){
+      addQuestionToUI(q)
+    })
+  }
 }
 
+function clearQuestionList() {
+  questionList.innerHTML = "";
+}
 //load existing questions
 function loadquestions() {
   var questions = getAllQuestion();
@@ -195,7 +219,8 @@ function updateQuestionUI(question) {
 function saveResponseToStorage(question, newRes) {
   var allQuestion = getAllQuestion();
   var revisedQuestions = allQuestion.map(function (q) {
-    if (question.title === q.title){ q.responses.push(newRes);
+    if (question.title === q.title) {
+      q.responses.push(newRes);
       question.responses.push(newRes);
       // console.log(question);
     }
