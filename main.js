@@ -41,19 +41,19 @@ function getSearchResults(query) {
       }
     });
 
-    if(filteredQues.length){
-      filteredQues.forEach(function(q){
+    if (filteredQues.length) {
+      filteredQues.forEach(function (q) {
         addQuestionToUI(q);
-      })
-    }else{
-      questionList.innerHTML=`<h3> No Match Found </h3>`;
+      });
+    } else {
+      questionList.innerHTML = `<h3 style="text-align:center"> No Match Found </h3>`;
     }
-  }else{
-    clearQuestionList()
+  } else {
+    clearQuestionList();
 
-    allQuestions.forEach(function(q){
-      addQuestionToUI(q)
-    })
+    allQuestions.forEach(function (q) {
+      addQuestionToUI(q);
+    });
   }
 }
 
@@ -76,6 +76,7 @@ function makeQuestion() {
     responses: [],
     upVotes: 0,
     downVotes: 0,
+    createdAt: Date.now()
   };
 
   questionTitle.value = "";
@@ -103,7 +104,22 @@ function makeQuestionUI(question) {
   downvoteDiv.setAttribute("id", "downvoteDiv");
   downvoteDiv.innerHTML = question.downVotes;
 
+  var likeIcon = document.createElement("div");
+  likeIcon.setAttribute("class", "fa fa-thumbs-up");
+
+  var dislikeIcon = document.createElement("div");
+  dislikeIcon.setAttribute("class", "fa fa-thumbs-down");
+
+  upvoteDiv.prepend(likeIcon);
+  downvoteDiv.prepend(dislikeIcon);
+
+  var dateDiv = document.createElement('div')
+  dateDiv.setAttribute('class','dateStyle')
+  dateDiv.innerHTML=new Date(question.createdAt).toLocaleString();
+
   quesBlock.appendChild(quesTitle);
+  quesDesc.appendChild(dateDiv);
+
   quesBlock.appendChild(quesDesc);
   quesDesc.appendChild(downvoteDiv);
   quesDesc.appendChild(upvoteDiv);
@@ -210,8 +226,8 @@ function updateQuestionUI(question) {
   var questionNodes = questionList.childNodes;
   questionNodes.forEach(function (q) {
     if (q.firstChild.innerHTML == question.title) {
-      q.children[1].children[1].innerHTML = question.upVotes;
-      q.children[1].children[0].innerHTML = question.downVotes;
+      q.children[1].children[2].innerHTML = `<div class="fa fa-thumbs-up"></div>`+question.upVotes;
+      q.children[1].children[1].innerHTML = `<div class="fa fa-thumbs-down"></div>`+question.downVotes;
     }
   });
 }

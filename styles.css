@@ -11,7 +11,7 @@
   padding: 10px;
   font-weight: bolder;
   font-size: 42px;
-  font-family: "Abril Fatface", cursive;
+  font-family: 'Lobster', cursive;
 }
 .container {
   display: flex;
@@ -31,6 +31,7 @@
 }
 
 #newQuestionForm {
+  
   color: white;
   background-color: #dd0101;
   padding: 6px;
@@ -172,12 +173,13 @@
 #upvoteDiv {
   color: green;
   float: right;
-  margin-right: 2px;
+  margin-right: 5px;
 }
 
 #downvoteDiv {
   color: red;
-  margin-left: 2px;
+  margin-left: 5px;
+  margin-right: 10px;
   float: right;
 }
 
@@ -201,10 +203,15 @@
   border-radius: 5px;
 }
 
+.dateStyle {
+  float: right;
+}
+
 h3,
 h1,
 h2,
 h4,
 h5 {
   margin: 0;
+  font-family: 'Lobster', cursive;
 }
