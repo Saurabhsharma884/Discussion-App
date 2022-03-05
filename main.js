@@ -15,9 +15,26 @@ var submitResponseBtn = document.getElementById("submitResponse");
 var resName = document.getElementById("pickName");
 var resDesc = document.getElementById("pickResponse");
 var resList = document.getElementById("responseList");
+
+var upVoteBtn = document.getElementById("upvoteBtn");
+var downVoteBtn = document.getElementById("downvoteBtn");
+
+var questionSearch = document.getElementById('questionSearch')
+
+
 questionSubmitBtn.addEventListener("click", submitQuestion);
 
 loadquestions();
+
+questionSearch.addEventListener('change',function(e){
+  getSearchResults(e.target.value);
+})
+
+function getSearchResults(query){
+
+  
+
+}
 
 //load existing questions
 function loadquestions() {
@@ -33,8 +50,8 @@ function makeQuestion() {
     title: questionTitle.value,
     description: questionDesc.value,
     responses: [],
-    upVotes:0,
-    downVotes:0
+    upVotes: 0,
+    downVotes: 0,
   };
 
   questionTitle.value = "";
@@ -44,7 +61,7 @@ function makeQuestion() {
 
 function makeQuestionUI(question) {
   var quesBlock = document.createElement("div");
-  quesBlock.setAttribute("id", "quesBlock");
+  quesBlock.setAttribute("class", "quesBlock");
 
   var quesTitle = document.createElement("div");
   quesTitle.setAttribute("id", "quesTitle");
@@ -54,18 +71,18 @@ function makeQuestionUI(question) {
   quesDesc.setAttribute("id", "quesDesc");
   quesDesc.innerHTML = question.description;
 
-  var upvoteDiv = document.createElement('div')
-  upvoteDiv.setAttribute('id','upvoteDiv')
+  var upvoteDiv = document.createElement("div");
+  upvoteDiv.setAttribute("id", "upvoteDiv");
   upvoteDiv.innerHTML = question.upVotes;
 
-  var downvoteDiv = document.createElement('div')
-  downvoteDiv.setAttribute('id','downvoteDiv')
-  downvoteDiv.innerHTML = question.downVotes
+  var downvoteDiv = document.createElement("div");
+  downvoteDiv.setAttribute("id", "downvoteDiv");
+  downvoteDiv.innerHTML = question.downVotes;
 
   quesBlock.appendChild(quesTitle);
   quesBlock.appendChild(quesDesc);
-  quesTitle.appendChild(upvoteDiv);
-  quesTitle.appendChild(downvoteDiv);
+  quesDesc.appendChild(downvoteDiv);
+  quesDesc.appendChild(upvoteDiv);
 
   quesBlock.addEventListener("click", expandQuestion(question));
 
@@ -78,6 +95,7 @@ function submitQuestion() {
   saveQuestionToStorage(question);
   addQuestionToUI(question);
 }
+
 //save the question to local storage
 function saveQuestionToStorage(question) {
   var questions = getAllQuestion();
@@ -98,7 +116,14 @@ function expandQuestion(question) {
     makeExpandedDisplay(question);
     clearResponsePanel();
     getQuestionResponsesToUI(question);
+
+    // console.log(question)
+
     submitResponseBtn.onclick = collectResponse(question);
+    // console.log(question)
+    upVoteBtn.onclick = upVoteQuestion(question);
+
+    downVoteBtn.onclick = downVoteQuestion(question);
   };
 }
 
@@ -129,11 +154,51 @@ function clearResponseForm() {
   resName.value = "";
   resDesc.value = "";
 }
+
+function upVoteQuestion(question) {
+  return function () {
+    question.upVotes += 1;
+    updateQuestionInStorage(question);
+    updateQuestionUI(question);
+  };
+}
+function downVoteQuestion(question) {
+  return function () {
+    question.downVotes += 1;
+    updateQuestionInStorage(question);
+    updateQuestionUI(question);
+  };
+}
+
+function updateQuestionInStorage(updatedQuestion) {
+  var allQuestion = getAllQuestion();
+  console.log(updatedQuestion);
+  var revisedQuestions = allQuestion.map(function (q) {
+    if (updatedQuestion.title === q.title) {
+      return updatedQuestion;
+    }
+    return q;
+  });
+  localStorage.setItem("questions", JSON.stringify(revisedQuestions));
+}
+
+function updateQuestionUI(question) {
+  var questionNodes = questionList.childNodes;
+  questionNodes.forEach(function (q) {
+    if (q.firstChild.innerHTML == question.title) {
+      q.children[1].children[1].innerHTML = question.upVotes;
+      q.children[1].children[0].innerHTML = question.downVotes;
+    }
+  });
+}
+
 function saveResponseToStorage(question, newRes) {
   var allQuestion = getAllQuestion();
-
   var revisedQuestions = allQuestion.map(function (q) {
-    if (question.title === q.title) q.responses.push(newRes);
+    if (question.title === q.title){ q.responses.push(newRes);
+      question.responses.push(newRes);
+      // console.log(question);
+    }
     return q;
   });
 
@@ -150,9 +215,10 @@ function getQuestionResponsesToUI(question) {
     }
   });
 }
+
 function addResponseToUI(response) {
   var responseBlock = document.createElement("div");
-  responseBlock.setAttribute("id", "responseBlockDiv");
+  responseBlock.setAttribute("class", "responseBlockDiv");
 
   var nameBlock = document.createElement("h5");
   nameBlock.innerHTML = response.name;
