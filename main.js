@@ -11,6 +11,7 @@ var questionList = document.getElementById("questionList");
 var questionForm = document.getElementById("quesFormDisplay");
 var questionExpanded = document.getElementById("quesExpandedDisplay");
 var submitResponseBtn = document.getElementById("submitResponse");
+var resolveBtn = document.getElementById("resolveBtn");
 
 var resName = document.getElementById("pickName");
 var resDesc = document.getElementById("pickResponse");
@@ -76,7 +77,7 @@ function makeQuestion() {
     responses: [],
     upVotes: 0,
     downVotes: 0,
-    createdAt: Date.now()
+    createdAt: Date.now(),
   };
 
   questionTitle.value = "";
@@ -113,9 +114,9 @@ function makeQuestionUI(question) {
   upvoteDiv.prepend(likeIcon);
   downvoteDiv.prepend(dislikeIcon);
 
-  var dateDiv = document.createElement('div')
-  dateDiv.setAttribute('class','dateStyle')
-  dateDiv.innerHTML=new Date(question.createdAt).toLocaleString();
+  var dateDiv = document.createElement("div");
+  dateDiv.setAttribute("class", "dateStyle");
+  dateDiv.innerHTML = new Date(question.createdAt).toLocaleString();
 
   quesBlock.appendChild(quesTitle);
   quesDesc.appendChild(dateDiv);
@@ -124,7 +125,7 @@ function makeQuestionUI(question) {
   quesDesc.appendChild(downvoteDiv);
   quesDesc.appendChild(upvoteDiv);
 
-  quesBlock.addEventListener("click", expandQuestion(question));
+  quesBlock.addEventListener('click', expandQuestion(question));
 
   return quesBlock;
 }
@@ -157,6 +158,7 @@ function expandQuestion(question) {
     clearResponsePanel();
     getQuestionResponsesToUI(question);
 
+    resolveBtn.onclick = resolveQuestion(question);
     // console.log(question)
 
     submitResponseBtn.onclick = collectResponse(question);
@@ -167,6 +169,31 @@ function expandQuestion(question) {
   };
 }
 
+function resolveQuestion(question) {
+ return function() {
+   var allQuestion = getAllQuestion()
+   allQuestion.forEach(function(q){
+     if(q.createdAt===question.createdAt){
+       allQuestion.splice(allQuestion.indexOf(q),1);
+     }
+   })
+   localStorage.setItem('questions',JSON.stringify(allQuestion))
+
+   clearQuestionList()
+   loadquestions();
+   showQuesForm()
+   hideExpandedDisplay()
+ }
+}
+function showQuesForm() {
+  questionForm.style.display = "block";
+
+}
+
+function hideExpandedDisplay(){
+  questionExpanded.style.display = "none";
+
+}
 function hideQuesForm() {
   questionForm.style.display = "none";
 }
@@ -199,9 +226,9 @@ function upVoteQuestion(question) {
   return function () {
     question.upVotes += 1;
     updateQuestionInStorage(question);
-    sortQuestions()
-    clearQuestionList()
-    loadquestions()
+    sortQuestions();
+    clearQuestionList();
+    loadquestions();
     updateQuestionUI(question);
   };
 }
@@ -215,10 +242,10 @@ function downVoteQuestion(question) {
 
 function sortQuestions() {
   var allQuestion = getAllQuestion();
-  allQuestion.sort(function(a,b){
-    return a.upVotes-b.upVotes;
-  })
-  localStorage.setItem('questions',JSON.stringify(allQuestion))
+  allQuestion.sort(function (a, b) {
+    return a.upVotes - b.upVotes;
+  });
+  localStorage.setItem("questions", JSON.stringify(allQuestion));
 }
 
 function updateQuestionInStorage(updatedQuestion) {
@@ -237,8 +264,10 @@ function updateQuestionUI(question) {
   var questionNodes = questionList.childNodes;
   questionNodes.forEach(function (q) {
     if (q.firstChild.innerHTML == question.title) {
-      q.children[1].children[2].innerHTML = `<div class="fa fa-thumbs-up"></div>`+question.upVotes;
-      q.children[1].children[1].innerHTML = `<div class="fa fa-thumbs-down"></div>`+question.downVotes;
+      q.children[1].children[2].innerHTML =
+        `<div class="fa fa-thumbs-up"></div>` + question.upVotes;
+      q.children[1].children[1].innerHTML =
+        `<div class="fa fa-thumbs-down"></div>` + question.downVotes;
     }
   });
 }
