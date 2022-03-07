@@ -199,6 +199,9 @@ function upVoteQuestion(question) {
   return function () {
     question.upVotes += 1;
     updateQuestionInStorage(question);
+    sortQuestions()
+    clearQuestionList()
+    loadquestions()
     updateQuestionUI(question);
   };
 }
@@ -208,6 +211,14 @@ function downVoteQuestion(question) {
     updateQuestionInStorage(question);
     updateQuestionUI(question);
   };
+}
+
+function sortQuestions() {
+  var allQuestion = getAllQuestion();
+  allQuestion.sort(function(a,b){
+    return a.upVotes-b.upVotes;
+  })
+  localStorage.setItem('questions',JSON.stringify(allQuestion))
 }
 
 function updateQuestionInStorage(updatedQuestion) {
