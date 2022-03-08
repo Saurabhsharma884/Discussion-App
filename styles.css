@@ -31,7 +31,7 @@
 }
 
 #newQuestionForm {
-  
+  cursor: pointer;
   color: white;
   background-color: #dd0101;
   padding: 6px;
@@ -111,18 +111,18 @@
 #respondQue {
   background-color: rgb(253, 230, 19);
   height: 50%;
-  padding: 10px;
+  /* padding: 10px; */
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 10px;
 }
 
-#respondQue :nth-child(1) {
+#respondQue :first-child {
   font-size: 32px;
   font-weight: bolder;
 }
 
-#respondQue :nth-child(2) {
+#respondQue :nth-child(3) {
   font-size: 22px;
   margin-top: 10px;
 }
@@ -170,14 +170,16 @@
   background-color: rgb(230, 111, 0);
 }
 
-#upvoteDiv {
+.upvoteDiv {
   color: green;
   float: right;
+  font-size: 15px;
   margin-right: 5px;
 }
 
-#downvoteDiv {
+.downvoteDiv {
   color: red;
+  font-size: 15px;
   margin-left: 5px;
   margin-right: 10px;
   float: right;
@@ -204,7 +206,13 @@
 }
 
 .dateStyle {
+  font-size: 15px;
   float: right;
+}
+
+#quesInfo {
+  display:  flex;
+  font-size: 15px;
 }
 
 h3,

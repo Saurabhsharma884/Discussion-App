@@ -21,6 +21,14 @@ var upVoteBtn = document.getElementById("upvoteBtn");
 var downVoteBtn = document.getElementById("downvoteBtn");
 
 var questionSearchNode = document.getElementById("questionSearch");
+var newQuestion = document.getElementById('newQuestionForm');
+
+newQuestion.addEventListener('click',openNewQuestionForm)
+
+function openNewQuestionForm(){
+  hideExpandedDisplay()
+  showQuesForm()
+}
 
 questionSubmitBtn.addEventListener("click", submitQuestion);
 
@@ -98,11 +106,11 @@ function makeQuestionUI(question) {
   quesDesc.innerHTML = question.description;
 
   var upvoteDiv = document.createElement("div");
-  upvoteDiv.setAttribute("id", "upvoteDiv");
+  upvoteDiv.setAttribute("class", "upvoteDiv");
   upvoteDiv.innerHTML = question.upVotes;
 
   var downvoteDiv = document.createElement("div");
-  downvoteDiv.setAttribute("id", "downvoteDiv");
+  downvoteDiv.setAttribute("class", "downvoteDiv");
   downvoteDiv.innerHTML = question.downVotes;
 
   var likeIcon = document.createElement("div");
@@ -315,13 +323,33 @@ function addResponseToUI(response) {
 
 function makeExpandedDisplay(question) {
   var title = document.createElement("div");
+  title.style.backgroundColor='rgb(255, 102, 0)'
+  title.style.padding='10px'
+  title.style.color='white'
   title.innerHTML = question.title;
 
   var desc = document.createElement("div");
+  desc.style.padding='10px'
   desc.innerHTML = question.description;
 
+  var quesInfo = document.createElement('div')
+  quesInfo.setAttribute('id','quesInfo')
+
+  var up = document.createElement('div')
+  up.style.color='green'
+  up.innerHTML =  `<div class="fa fa-thumbs-up"></div>` + question.upVotes;
+
+  var down = document.createElement('div')
+  down.style.color='red'
+  down.innerHTML =  `<div class="fa fa-thumbs-down"></div>` + question.downVotes;
+
+  quesInfo.appendChild(up)
+  quesInfo.appendChild(down)
+  
+  
   questionExpanded.children[1].innerHTML = "";
   questionExpanded.children[1].appendChild(title);
+  questionExpanded.children[1].appendChild(quesInfo)
   questionExpanded.children[1].appendChild(desc);
 }
 
