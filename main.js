@@ -21,13 +21,14 @@ var upVoteBtn = document.getElementById("upvoteBtn");
 var downVoteBtn = document.getElementById("downvoteBtn");
 
 var questionSearchNode = document.getElementById("questionSearch");
-var newQuestion = document.getElementById('newQuestionForm');
+var newQuestion = document.getElementById("newQuestionForm");
 
-newQuestion.addEventListener('click',openNewQuestionForm)
 
-function openNewQuestionForm(){
-  hideExpandedDisplay()
-  showQuesForm()
+newQuestion.addEventListener("click", openNewQuestionForm);
+
+function openNewQuestionForm() {
+  hideExpandedDisplay();
+  showQuesForm();
 }
 
 questionSubmitBtn.addEventListener("click", submitQuestion);
@@ -86,6 +87,7 @@ function makeQuestion() {
     upVotes: 0,
     downVotes: 0,
     createdAt: Date.now(),
+    isFavourite:false
   };
 
   questionTitle.value = "";
@@ -94,8 +96,14 @@ function makeQuestion() {
 }
 
 function makeQuestionUI(question) {
+  var favIcon = document.createElement('div')
+  // favIcon.innerHTML =`<i class="fa fa-heart-o" aria-hidden="true"></i><br>`
+  favIcon.style.float='left'
+
   var quesBlock = document.createElement("div");
   quesBlock.setAttribute("class", "quesBlock");
+
+  quesBlock.appendChild(favIcon)
 
   var quesTitle = document.createElement("div");
   quesTitle.setAttribute("id", "quesTitle");
@@ -133,7 +141,7 @@ function makeQuestionUI(question) {
   quesDesc.appendChild(downvoteDiv);
   quesDesc.appendChild(upvoteDiv);
 
-  quesBlock.addEventListener('click', expandQuestion(question));
+  quesBlock.addEventListener("click", expandQuestion(question));
 
   return quesBlock;
 }
@@ -178,29 +186,27 @@ function expandQuestion(question) {
 }
 
 function resolveQuestion(question) {
- return function() {
-   var allQuestion = getAllQuestion()
-   allQuestion.forEach(function(q){
-     if(q.createdAt===question.createdAt){
-       allQuestion.splice(allQuestion.indexOf(q),1);
-     }
-   })
-   localStorage.setItem('questions',JSON.stringify(allQuestion))
+  return function () {
+    var allQuestion = getAllQuestion();
+    allQuestion.forEach(function (q) {
+      if (q.createdAt === question.createdAt) {
+        allQuestion.splice(allQuestion.indexOf(q), 1);
+      }
+    });
+    localStorage.setItem("questions", JSON.stringify(allQuestion));
 
-   clearQuestionList()
-   loadquestions();
-   showQuesForm()
-   hideExpandedDisplay()
- }
+    clearQuestionList();
+    loadquestions();
+    showQuesForm();
+    hideExpandedDisplay();
+  };
 }
 function showQuesForm() {
   questionForm.style.display = "block";
-
 }
 
-function hideExpandedDisplay(){
+function hideExpandedDisplay() {
   questionExpanded.style.display = "none";
-
 }
 function hideQuesForm() {
   questionForm.style.display = "none";
@@ -323,33 +329,21 @@ function addResponseToUI(response) {
 
 function makeExpandedDisplay(question) {
   var title = document.createElement("div");
-  title.style.backgroundColor='rgb(255, 102, 0)'
-  title.style.padding='10px'
-  title.style.color='white'
+  title.style.backgroundColor = "rgb(255, 102, 0)";
+  title.style.padding = "10px";
+  title.style.fontWeight = "bolder";
+  title.style.borderTopLeftRadius = "10px";
+  title.style.borderTopRightRadius = "10px";
+  title.style.fontSize = "32px";
+  title.style.color = "white";
   title.innerHTML = question.title;
 
   var desc = document.createElement("div");
-  desc.style.padding='10px'
+  desc.style.padding = "10px";
   desc.innerHTML = question.description;
 
-  var quesInfo = document.createElement('div')
-  quesInfo.setAttribute('id','quesInfo')
-
-  var up = document.createElement('div')
-  up.style.color='green'
-  up.innerHTML =  `<div class="fa fa-thumbs-up"></div>` + question.upVotes;
-
-  var down = document.createElement('div')
-  down.style.color='red'
-  down.innerHTML =  `<div class="fa fa-thumbs-down"></div>` + question.downVotes;
-
-  quesInfo.appendChild(up)
-  quesInfo.appendChild(down)
-  
-  
   questionExpanded.children[1].innerHTML = "";
   questionExpanded.children[1].appendChild(title);
-  questionExpanded.children[1].appendChild(quesInfo)
   questionExpanded.children[1].appendChild(desc);
 }
 
