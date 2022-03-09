@@ -67,7 +67,7 @@
   background-color: #0069d9;
   color: white;
   position: relative;
-  left: 75%;
+  left: 32vw;
   padding: 6px;
   /* float: right; */
   border-radius: 5px;
@@ -100,6 +100,7 @@
 
 #quesDesc {
   overflow: hidden;
+  margin-top: 10px;
   color: rgb(196, 10, 10);
   font-size: 20px;
 }
@@ -117,15 +118,8 @@
   border-radius: 10px;
 }
 
-#respondQue :first-child {
-  font-size: 32px;
-  font-weight: bolder;
-}
 
-#respondQue :nth-child(3) {
-  font-size: 22px;
-  margin-top: 10px;
-}
+
 
 #submitResponse {
   background-color: #0069d9;
@@ -191,7 +185,7 @@
   color: white;
   padding: 6px;
   position: relative;
-  left: 75%;
+  left: 32vw;
   border-radius: 5px;
 }
 
@@ -201,7 +195,7 @@
   padding: 6px;
   cursor: pointer;
   position: relative;
-  left: 75%;
+  left: 32vw;
   border-radius: 5px;
 }
 
@@ -212,6 +206,7 @@
 
 #quesInfo {
   display:  flex;
+  padding: 10px;
   font-size: 15px;
 }
 
