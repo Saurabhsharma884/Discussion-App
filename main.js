@@ -23,7 +23,6 @@ var downVoteBtn = document.getElementById("downvoteBtn");
 var questionSearchNode = document.getElementById("questionSearch");
 var newQuestion = document.getElementById("newQuestionForm");
 
-
 newQuestion.addEventListener("click", openNewQuestionForm);
 
 function openNewQuestionForm() {
@@ -72,7 +71,12 @@ function clearQuestionList() {
 }
 //load existing questions
 function loadquestions() {
+  clearQuestionList()
   var questions = getAllQuestion();
+  var favQuestions = getAllFavQuestion();
+  favQuestions.forEach((q)=>{
+    addQuestionToUI(q)
+  })
   questions.forEach((q) => {
     addQuestionToUI(q);
   });
@@ -87,7 +91,7 @@ function makeQuestion() {
     upVotes: 0,
     downVotes: 0,
     createdAt: Date.now(),
-    isFavourite:false
+    isFavourite: false,
   };
 
   questionTitle.value = "";
@@ -96,14 +100,21 @@ function makeQuestion() {
 }
 
 function makeQuestionUI(question) {
-  var favIcon = document.createElement('div')
-  // favIcon.innerHTML =`<i class="fa fa-heart-o" aria-hidden="true"></i><br>`
-  favIcon.style.float='left'
+  var favIcon = document.createElement("div");
+  if (question.isFavourite)
+    favIcon.innerHTML = `<i class="fa fa-heart" aria-hidden="true"></i><br>`;
+  else
+    favIcon.innerHTML = `<i class="fa fa-heart-o" aria-hidden="true"></i><br>`;
+
+  favIcon.style.float = "right";
+  favIcon.style.marginRight = "5px";
+  favIcon.style.fontSize = "18px";
+  favIcon.style.cursor = "pointer";
+
+  favIcon.addEventListener("click", makeFavourite(question));
 
   var quesBlock = document.createElement("div");
   quesBlock.setAttribute("class", "quesBlock");
-
-  quesBlock.appendChild(favIcon)
 
   var quesTitle = document.createElement("div");
   quesTitle.setAttribute("id", "quesTitle");
@@ -140,8 +151,9 @@ function makeQuestionUI(question) {
   quesBlock.appendChild(quesDesc);
   quesDesc.appendChild(downvoteDiv);
   quesDesc.appendChild(upvoteDiv);
+  quesDesc.appendChild(favIcon);
 
-  quesBlock.addEventListener("click", expandQuestion(question));
+  quesTitle.addEventListener("click", expandQuestion(question));
 
   return quesBlock;
 }
@@ -162,7 +174,46 @@ function saveQuestionToStorage(question) {
 
 //add question to list on right
 function addQuestionToUI(question) {
-  questionList.prepend(makeQuestionUI(question));
+  questionList.append(makeQuestionUI(question));
+}
+
+//favourite question handler
+function makeFavourite(question) {
+  return function (e) {
+    question.isFavourite = !question.isFavourite;
+    if (question.isFavourite) e.target.className = "fa fa-heart";
+    else {
+      e.target.className = "fa fa-heart-o";
+    }
+    // console.log(e.target.className);
+    updateFavQuestionStorage(question);
+  };
+}
+
+function updateFavQuestionStorage(question) {
+  var allQuestion = getAllQuestion();
+  var favQuestions = getAllFavQuestion();
+  if (question.isFavourite) {
+    allQuestion.forEach(function (q) {
+      if (question.createdAt === q.createdAt) {
+        q.isFavourite = true;
+        favQuestions.push(q);
+        allQuestion.splice(allQuestion.indexOf(q), 1);
+      }
+    });
+  } else {
+    favQuestions.forEach(function (q) {
+      if (question.createdAt === q.createdAt) {
+        q.isFavourite = false;
+        allQuestion.push(q);
+        favQuestions.splice(favQuestions.indexOf(q), 1);
+      }
+    });
+  }
+  sortQuestions();
+  localStorage.setItem("questions", JSON.stringify(allQuestion));
+  localStorage.setItem("favQuestions", JSON.stringify(favQuestions));
+  loadquestions()
 }
 
 //expand question handler
@@ -241,6 +292,7 @@ function upVoteQuestion(question) {
     question.upVotes += 1;
     updateQuestionInStorage(question);
     sortQuestions();
+    sortQuestions();
     clearQuestionList();
     loadquestions();
     updateQuestionUI(question);
@@ -254,24 +306,39 @@ function downVoteQuestion(question) {
   };
 }
 
-function sortQuestions() {
+function sortQuestions(questionList) {
   var allQuestion = getAllQuestion();
+  var favQuestions = getAllFavQuestion();
+
   allQuestion.sort(function (a, b) {
-    return a.upVotes - b.upVotes;
+    return b.upVotes - a.upVotes;
+  });
+
+  favQuestions.sort(function (a, b) {
+    return b.upVotes - a.upVotes;
   });
   localStorage.setItem("questions", JSON.stringify(allQuestion));
+  localStorage.setItem("favQuestions", JSON.stringify(favQuestions));
 }
 
 function updateQuestionInStorage(updatedQuestion) {
-  var allQuestion = getAllQuestion();
-  console.log(updatedQuestion);
-  var revisedQuestions = allQuestion.map(function (q) {
+  var questionList;
+  if(updatedQuestion.isFavourite)
+  questionList = getAllFavQuestion();
+  else
+  questionList = getAllQuestion();
+
+  // console.log(updatedQuestion);
+  var revisedQuestions = questionList.map(function (q) {
     if (updatedQuestion.title === q.title) {
       return updatedQuestion;
     }
     return q;
   });
-  localStorage.setItem("questions", JSON.stringify(revisedQuestions));
+  if(updatedQuestion.isFavourite)
+  localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
+  else
+  localStorage.setItem("allQuestions", JSON.stringify(revisedQuestions));
 }
 
 function updateQuestionUI(question) {
@@ -287,6 +354,7 @@ function updateQuestionUI(question) {
 }
 
 function saveResponseToStorage(question, newRes) {
+
   var allQuestion = getAllQuestion();
   var revisedQuestions = allQuestion.map(function (q) {
     if (question.title === q.title) {
@@ -354,4 +422,13 @@ function getAllQuestion() {
   else questions = [];
 
   return questions;
+}
+
+//return all favourite questions
+function getAllFavQuestion() {
+  var favQuestions = localStorage.getItem("favQuestions");
+  if (favQuestions) favQuestions = JSON.parse(favQuestions);
+  else favQuestions = [];
+
+  return favQuestions;
 }
