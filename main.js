@@ -187,6 +187,8 @@ function makeFavourite(question) {
     }
     // console.log(e.target.className);
     updateFavQuestionStorage(question);
+    sortQuestions()
+    loadquestions()
   };
 }
 
@@ -276,6 +278,7 @@ function collectResponse(question) {
     var response = {
       name: resName.value,
       res: resDesc.value,
+      createrAt: Date.now()
     };
     clearResponseForm();
     saveResponseToStorage(question, response);
@@ -292,7 +295,6 @@ function upVoteQuestion(question) {
     question.upVotes += 1;
     updateQuestionInStorage(question);
     sortQuestions();
-    sortQuestions();
     clearQuestionList();
     loadquestions();
     updateQuestionUI(question);
@@ -306,7 +308,7 @@ function downVoteQuestion(question) {
   };
 }
 
-function sortQuestions(questionList) {
+function sortQuestions() {
   var allQuestion = getAllQuestion();
   var favQuestions = getAllFavQuestion();
 
@@ -323,6 +325,7 @@ function sortQuestions(questionList) {
 
 function updateQuestionInStorage(updatedQuestion) {
   var questionList;
+  console.log(updatedQuestion.isFavourite);
   if(updatedQuestion.isFavourite)
   questionList = getAllFavQuestion();
   else
@@ -338,7 +341,7 @@ function updateQuestionInStorage(updatedQuestion) {
   if(updatedQuestion.isFavourite)
   localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
   else
-  localStorage.setItem("allQuestions", JSON.stringify(revisedQuestions));
+  localStorage.setItem("questions", JSON.stringify(revisedQuestions));
 }
 
 function updateQuestionUI(question) {
@@ -355,7 +358,12 @@ function updateQuestionUI(question) {
 
 function saveResponseToStorage(question, newRes) {
 
-  var allQuestion = getAllQuestion();
+  var allQuestion ;
+  if(question.isFavourite)
+  allQuestion= getAllFavQuestion();
+  else
+  allQuestion = getAllQuestion()
+
   var revisedQuestions = allQuestion.map(function (q) {
     if (question.title === q.title) {
       q.responses.push(newRes);
@@ -364,12 +372,20 @@ function saveResponseToStorage(question, newRes) {
     }
     return q;
   });
-
+ if(question.isFavourite)
+ localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
+ else
   localStorage.setItem("questions", JSON.stringify(revisedQuestions));
+
 }
 
 function getQuestionResponsesToUI(question) {
-  var allQuestion = getAllQuestion();
+  var allQuestion;
+  if(question.isFavourite)
+  allQuestion = getAllFavQuestion();
+  else
+  allQuestion = getAllQuestion();
+
   allQuestion.forEach(function (q) {
     if (q.title === question.title) {
       q.responses.forEach(function (res) {
@@ -388,6 +404,9 @@ function addResponseToUI(response) {
 
   var resBlock = document.createElement("h4");
   resBlock.innerHTML = response.res;
+
+  var timeElapsed = document.createElement('p')
+  timeElapsed.innerHTML = 'created '+getElapsedTime(timeElapsed)(response.createdAt)+' Ago'
 
   responseBlock.appendChild(nameBlock);
   responseBlock.appendChild(resBlock);
