@@ -71,12 +71,12 @@ function clearQuestionList() {
 }
 //load existing questions
 function loadquestions() {
-  clearQuestionList()
+  clearQuestionList();
   var questions = getAllQuestion();
   var favQuestions = getAllFavQuestion();
-  favQuestions.forEach((q)=>{
-    addQuestionToUI(q)
-  })
+  favQuestions.forEach((q) => {
+    addQuestionToUI(q);
+  });
   questions.forEach((q) => {
     addQuestionToUI(q);
   });
@@ -187,8 +187,8 @@ function makeFavourite(question) {
     }
     // console.log(e.target.className);
     updateFavQuestionStorage(question);
-    sortQuestions()
-    loadquestions()
+    sortQuestions();
+    loadquestions();
   };
 }
 
@@ -215,7 +215,7 @@ function updateFavQuestionStorage(question) {
   sortQuestions();
   localStorage.setItem("questions", JSON.stringify(allQuestion));
   localStorage.setItem("favQuestions", JSON.stringify(favQuestions));
-  loadquestions()
+  loadquestions();
 }
 
 //expand question handler
@@ -278,8 +278,9 @@ function collectResponse(question) {
     var response = {
       name: resName.value,
       res: resDesc.value,
-      createrAt: Date.now()
+      createdAt: Date.now(),
     };
+
     clearResponseForm();
     saveResponseToStorage(question, response);
     addResponseToUI(response);
@@ -326,10 +327,8 @@ function sortQuestions() {
 function updateQuestionInStorage(updatedQuestion) {
   var questionList;
   console.log(updatedQuestion.isFavourite);
-  if(updatedQuestion.isFavourite)
-  questionList = getAllFavQuestion();
-  else
-  questionList = getAllQuestion();
+  if (updatedQuestion.isFavourite) questionList = getAllFavQuestion();
+  else questionList = getAllQuestion();
 
   // console.log(updatedQuestion);
   var revisedQuestions = questionList.map(function (q) {
@@ -338,10 +337,9 @@ function updateQuestionInStorage(updatedQuestion) {
     }
     return q;
   });
-  if(updatedQuestion.isFavourite)
-  localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
-  else
-  localStorage.setItem("questions", JSON.stringify(revisedQuestions));
+  if (updatedQuestion.isFavourite)
+    localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
+  else localStorage.setItem("questions", JSON.stringify(revisedQuestions));
 }
 
 function updateQuestionUI(question) {
@@ -357,12 +355,9 @@ function updateQuestionUI(question) {
 }
 
 function saveResponseToStorage(question, newRes) {
-
-  var allQuestion ;
-  if(question.isFavourite)
-  allQuestion= getAllFavQuestion();
-  else
-  allQuestion = getAllQuestion()
+  var allQuestion;
+  if (question.isFavourite) allQuestion = getAllFavQuestion();
+  else allQuestion = getAllQuestion();
 
   var revisedQuestions = allQuestion.map(function (q) {
     if (question.title === q.title) {
@@ -372,19 +367,15 @@ function saveResponseToStorage(question, newRes) {
     }
     return q;
   });
- if(question.isFavourite)
- localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
- else
-  localStorage.setItem("questions", JSON.stringify(revisedQuestions));
-
+  if (question.isFavourite)
+    localStorage.setItem("favQuestions", JSON.stringify(revisedQuestions));
+  else localStorage.setItem("questions", JSON.stringify(revisedQuestions));
 }
 
 function getQuestionResponsesToUI(question) {
   var allQuestion;
-  if(question.isFavourite)
-  allQuestion = getAllFavQuestion();
-  else
-  allQuestion = getAllQuestion();
+  if (question.isFavourite) allQuestion = getAllFavQuestion();
+  else allQuestion = getAllQuestion();
 
   allQuestion.forEach(function (q) {
     if (q.title === question.title) {
@@ -405,13 +396,45 @@ function addResponseToUI(response) {
   var resBlock = document.createElement("h4");
   resBlock.innerHTML = response.res;
 
-  var timeElapsed = document.createElement('p')
-  timeElapsed.innerHTML = 'created '+getElapsedTime(timeElapsed)(response.createdAt)+' Ago'
+  var timeElapsedBlock = document.createElement("h5");
+  timeElapsedBlock.style.float = "right";
+
+  timeElapsedBlock.innerHTML = getElapsedTime(timeElapsedBlock)(
+    response.createdAt
+  );
 
   responseBlock.appendChild(nameBlock);
   responseBlock.appendChild(resBlock);
+  resBlock.appendChild(timeElapsedBlock);
 
   resList.appendChild(responseBlock);
+}
+
+function getElapsedTime(block) {
+  return function (time) {
+    setInterval(function () {
+      block.innerHTML = "created " + makeDateAndTime(time) + " Ago";
+    }, 10);
+    console.log(makeDateAndTime(time));
+    return makeDateAndTime(time);
+  };
+}
+
+function makeDateAndTime(time) {
+  var curTime = Date.now();
+  var totalTime = curTime - new Date(time);
+
+  var sec = parseInt(totalTime / 1000) % 60;
+  var min = parseInt(totalTime / 1000 / 60) % 60;
+  var hr = parseInt(totalTime / 1000 / 60 / 60);
+  var timeString;
+  if (hr == 0 && min == 0) timeString = `${sec} seconds`;
+  else if (hr == 0) timeString = `${min} minutes`;
+  else timeString = `${hr} hours`;
+
+  // console.log(`${hr} hours ${min} minutes ${sec} seconds`);
+
+  return timeString;
 }
 
 function makeExpandedDisplay(question) {

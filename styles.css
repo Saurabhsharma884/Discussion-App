@@ -213,10 +213,11 @@
 }
 
 h3,
-h1,
-h2,
-h4,
-h5 {
+h1{
   margin: 0;
   font-family: 'Lobster', cursive;
+}
+
+h2,h4,h5 {
+margin: 0;
 }
